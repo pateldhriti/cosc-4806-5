@@ -26,17 +26,35 @@ class Reminders extends Controller {
     }
 
     public function edit($id = null) {
-        $reminder = $this->model('Reminder');
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $reminder->update_reminder($id, $_POST['subject']);
-            header('Location: /reminders');
-            exit;
+        if (!isset($_SESSION['auth'])) {
+            redirect('/login');
         }
 
-        $note = $reminder->get_reminder_by_id($id);
-        $this->view('reminders/edit', ['note' => $note]);
+        $reminderModel = $this->model('Reminder');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $subject = $_POST['subject'] ?? '';
+
+            if (!empty($subject)) {
+                $reminderModel->update_reminder($id, $subject);
+                redirect('/reminders');
+            } else {
+                $this->view('reminders/edit', [
+                    'reminder' => ['id' => $id, 'subject' => ''],
+                    'error' => 'Subject cannot be empty.'
+                ]);
+            }
+        } else {
+            $reminder = $reminderModel->get_reminder_by_id($id);
+
+            if (!$reminder) {
+                die("Reminder not found.");
+            }
+
+            $this->view('reminders/edit', ['reminder' => $reminder]);
+        }
     }
+
 
     public function delete($id = null) {
         $reminder = $this->model('Reminder');
