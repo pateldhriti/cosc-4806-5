@@ -55,19 +55,29 @@ class User {
         }
     }
 
-
     private function log_attempt($username, $result) {
         $db = db_connect();
+
+    
+        if (empty(trim($username))) {
+            return;
+        }
+
         $stmt = $db->prepare("INSERT INTO log (username, attempt) VALUES (:username, :result)");
-        $stmt->execute(['username' => $username, 'result' => $result]);
+        $stmt->execute([
+            'username' => $username,
+            'result' => $result
+        ]);
     }
+
+   
 
     public function get_login_stats() {
         $db = db_connect();
         $stmt = $db->prepare("
             SELECT username, COUNT(*) AS total
             FROM log
-            WHERE attempt = 'good'
+            WHERE attempt = 'good' AND username != ''
             GROUP BY username
             ORDER BY total DESC
         ");

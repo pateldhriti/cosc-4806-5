@@ -36,9 +36,13 @@
     </div>
 
     <!-- Top User -->
-    <div class="alert alert-info">
+    <!-- Top User -->
+    <?php if (!empty($data['topUser'])): ?>
+      <div class="alert alert-info">
         <strong>Top User:</strong> <?= htmlspecialchars($data['topUser']['username']) ?> with <?= $data['topUser']['total'] ?> reminders.
-    </div>
+      </div>
+    <?php endif; ?>
+
 
     <!-- Login Stats -->
     <div class="card">

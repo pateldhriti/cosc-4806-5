@@ -44,4 +44,18 @@ class Reminders extends Controller {
         header('Location: /reminders');
         exit;
     }
+
+    public function get_user_with_most_reminders() {
+        $db = db_connect();
+        $stmt = $db->prepare("
+            SELECT users.username, COUNT(notes.id) AS total
+            FROM notes 
+            JOIN users ON notes.user_id = users.id
+            GROUP BY users.username
+            ORDER BY total DESC
+            LIMIT 1
+        ");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
