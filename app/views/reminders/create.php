@@ -10,4 +10,4 @@
         <a href="/reminders" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
-<?php require_once 'app/views/templates/footer.php'; ?>
+<?php require_once 'app/views/includes/footer.php'; ?>
