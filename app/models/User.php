@@ -24,6 +24,7 @@ class User {
         $db = db_connect();
         $username = strtolower(trim($username));
 
+        // Check for 3 bad attempts in a row
         $stmt = $db->prepare("SELECT * FROM log WHERE username = :username AND attempt = 'bad' ORDER BY timestamp DESC LIMIT 3");
         $stmt->execute(['username' => $username]);
         $attempts = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,21 +36,25 @@ class User {
             }
         }
 
+
         $stmt = $db->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    
         if ($user && password_verify($password, $user['password'])) {
             $this->log_attempt($username, 'good');
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = $username;
-            $_SESSION['user'] = $user;  // ✅ set user info
+            $_SESSION['role'] = $user['role']; 
+            $_SESSION['user'] = $user;
             return true;
         } else {
             $this->log_attempt($username, 'bad');
             return false;
         }
     }
+
 
     private function log_attempt($username, $result) {
         $db = db_connect();
