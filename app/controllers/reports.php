@@ -1,26 +1,24 @@
 <?php
 
 class Reports extends Controller {
+    public function index() {
+        if (!isset($_SESSION['auth']) || $_SESSION['role'] !== 'admin') {
+            echo "Access denied. Admin only.";
+            return;
+        }
 
-  public function __construct() {
-    if (!isset($_SESSION['auth']) || $_SESSION['role'] !== 'admin') {
-        die("Access denied. Admin only.");
-      
+        $reminderModel = new Reminder();
+        $userModel = new User();
+
+        $reminders = $reminderModel->get_all_reminders();
+        $topUser = $reminderModel->get_user_with_most_reminders();
+        $loginStats = $userModel->get_login_stats();
+
+        // ✅ This line is the most important
+        $this->view('reports/index', [
+            'reminders' => $reminders,
+            'topUser' => $topUser,
+            'loginStats' => $loginStats
+        ]);
     }
-
 }
-  public function index() {
-          $reminderModel = $this->model('Reminder');
-          $userModel = $this->model('User');
-
-          $reminders = $reminderModel->get_all_reminders();
-          $topUser = $reminderModel->get_user_with_most_reminders();
-          $loginStats = $userModel->get_login_stats();
-
-          $this->view('reports/index', [
-              'reminders' => $reminders,
-              'topUser' => $topUser,
-              'loginStats' => $loginStats
-          ]);
-      }
-  }

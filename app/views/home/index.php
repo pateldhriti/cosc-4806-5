@@ -14,6 +14,10 @@
     <p>You are logged in.</p>
     <p><strong>Current Date and Time:</strong> <?= $currentDateTime ?></p>
 
+    <pre>
+    <?php print_r($_SESSION); ?>
+    </pre>
+
     <a href="/reminders" class="btn btn-primary">Go to Reminders</a>
     <a href="/login/logout" class="btn btn-danger ms-2">Logout</a>
 </body>
