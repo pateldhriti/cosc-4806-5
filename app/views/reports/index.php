@@ -1,6 +1,7 @@
 <?php $this->view('includes/header'); ?>
 
 <div class="container mt-4">
+    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -14,8 +15,8 @@
     <div class="card mb-4">
         <div class="card-header">All Reminders</div>
         <div class="card-body">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                     <tr>
                         <th>Reminder</th>
                         <th>User</th>
@@ -34,22 +35,19 @@
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
-
             </table>
         </div>
     </div>
 
     <!-- Top User -->
-    <!-- Top User -->
     <?php if (!empty($data['topUser'])): ?>
       <div class="alert alert-info">
-        <strong>Top User:</strong> <?= htmlspecialchars($data['topUser']['username']) ?> with <?= $data['topUser']['total'] ?> reminders.
+        <strong>🏆 Top User:</strong> <?= htmlspecialchars($data['topUser']['username']) ?> with <?= $data['topUser']['total'] ?> reminders.
       </div>
     <?php endif; ?>
 
-
     <!-- Login Stats -->
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header">Login Stats</div>
         <div class="card-body">
             <ul class="list-group">
@@ -62,5 +60,14 @@
             </ul>
         </div>
     </div>
+
+    <!-- Login Chart -->
+    <div class="card">
+        <div class="card-header">Login Chart</div>
+        <div class="card-body text-center">
+            <img src="/mnt/data/login_stats_chart.png" class="img-fluid" alt="Login Stats Chart">
+        </div>
+    </div>
+</div>
 
 <?php $this->view('includes/footer'); ?>
