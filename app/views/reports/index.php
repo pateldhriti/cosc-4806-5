@@ -64,10 +64,35 @@
     <!-- Login Chart -->
     <div class="card">
         <div class="card-header">Login Chart</div>
-        <div class="card-body text-center">
-            <img src="/mnt/data/login_stats_chart.png" class="img-fluid" alt="Login Stats Chart">
+        <div class="card-body">
+            <canvas id="loginChart" width="400" height="200"></canvas>
         </div>
     </div>
-</div>
 
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('loginChart').getContext('2d');
+        const loginChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($data['loginStats'], 'username')) ?>,
+                datasets: [{
+                    label: 'Logins',
+                    data: <?= json_encode(array_column($data['loginStats'], 'total')) ?>,
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        precision: 0
+                    }
+                }
+            }
+        });
+    </script>
 <?php $this->view('includes/footer'); ?>
