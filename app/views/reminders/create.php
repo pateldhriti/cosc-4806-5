@@ -1,4 +1,4 @@
-<?php require_once 'app/views/templates/header.php'; ?>
+<?php require_once 'app/views/includes/header.php'; ?>
 <div class="container">
     <h2>Create Reminder</h2>
     <form method="POST" action="/reminders/create">
