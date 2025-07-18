@@ -65,15 +65,16 @@ class User {
     public function get_login_stats() {
         $db = db_connect();
         $stmt = $db->prepare("
-            SELECT username, COUNT(*) AS attempts
+            SELECT username, COUNT(*) AS total
             FROM log
             WHERE attempt = 'good'
             GROUP BY username
-            ORDER BY attempts DESC
+            ORDER BY total DESC
         ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     
 }

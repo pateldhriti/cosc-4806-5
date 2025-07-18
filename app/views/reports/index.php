@@ -47,12 +47,12 @@
             <ul class="list-group">
                 <?php foreach ($data['loginStats'] as $row): ?>
                     <li class="list-group-item">
-                        <?= htmlspecialchars($row['username']) ?> - <?= $row['total'] ?> logins
+                        <?= htmlspecialchars($row['username'] ?? 'Unknown') ?> - 
+                        <?= isset($row['total']) ? htmlspecialchars($row['total']) : '0' ?> logins
                     </li>
                 <?php endforeach; ?>
             </ul>
         </div>
     </div>
-</div>
 
 <?php $this->view('includes/footer'); ?>
