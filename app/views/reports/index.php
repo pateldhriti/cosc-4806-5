@@ -24,13 +24,17 @@
                 </thead>
                 <tbody>
                     <?php foreach ($data['reminders'] as $reminder): ?>
-                        <tr>
+                        <?php 
+                            $highlight = ($reminder['username'] === $data['topUser']['username']) ? 'table-success' : ''; 
+                        ?>
+                        <tr class="<?= $highlight ?>">
                             <td><?= htmlspecialchars($reminder['subject']) ?></td>
                             <td><?= htmlspecialchars($reminder['username']) ?></td>
                             <td><?= htmlspecialchars($reminder['created_at']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
+
             </table>
         </div>
     </div>
