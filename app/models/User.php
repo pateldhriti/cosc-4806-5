@@ -61,4 +61,19 @@ class User {
         $stmt = $db->prepare("INSERT INTO log (username, attempt) VALUES (:username, :result)");
         $stmt->execute(['username' => $username, 'result' => $result]);
     }
+
+    public function get_login_stats() {
+        $db = db_connect();
+        $stmt = $db->prepare("
+            SELECT username, COUNT(*) AS attempts
+            FROM log
+            WHERE attempt = 'good'
+            GROUP BY username
+            ORDER BY attempts DESC
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    
 }
