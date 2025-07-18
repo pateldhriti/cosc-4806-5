@@ -36,4 +36,4 @@
         </div>
     <?php endif; ?>
 </div>
-<?php require_once 'app/views/templates/footer.php'; ?>
+<?php require_once 'app/views/includes/footer.php'; ?>
